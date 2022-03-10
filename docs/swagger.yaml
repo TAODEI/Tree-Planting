@@ -1,0 +1,111 @@
+basePath: /api/v1
+definitions:
+  Response:
+    properties:
+      code:
+        type: integer
+      data: {}
+      msg:
+        type: string
+    type: object
+  model.User:
+    properties:
+      password:
+        type: string
+      student_id:
+        type: string
+    type: object
+  user.Content:
+    properties:
+      text:
+        type: string
+    type: object
+host: tree-planting.muxixyz.com:2333
+info:
+  contact:
+    email: tao_dei@qq.com
+    name: TAODEI
+  description: 植树节API
+  termsOfService: http://swagger.io/terrms/
+  title: TreePlanting API
+  version: 1.0.0
+paths:
+  /content:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: content
+        in: body
+        name: object
+        required: true
+        schema:
+          $ref: '#/definitions/user.Content'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"msg":"修改成功"}'
+          schema:
+            $ref: '#/definitions/Response'
+        "400":
+          description: '{"error_code":"20001", "message":"Fail."} or {"error_code":"00002",
+            "message":"Lack Param Or Param Not Satisfiable."}'
+          schema:
+            type: string
+        "401":
+          description: '{"error_code":"10001", "message":"Token Invalid."} 身份认证失败
+            重新登录'
+          schema:
+            type: string
+        "500":
+          description: '{"error_code":"30001", "message":"Fail."} 失败'
+          schema:
+            type: string
+      summary: 上传content
+      tags:
+      - user
+  /user:
+    post:
+      consumes:
+      - application/json
+      description: 学号密码登录
+      parameters:
+      - description: 登录的用户信息
+        in: body
+        name: object
+        required: true
+        schema:
+          $ref: '#/definitions/model.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"msg":"将student_id作为token保留"}'
+          schema:
+            $ref: '#/definitions/Response'
+        "400":
+          description: '{"error_code":"20001", "message":"Fail."} or {"error_code":"00002",
+            "message":"Lack Param Or Param Not Satisfiable."}'
+          schema:
+            type: string
+        "401":
+          description: '{"error_code":"10001", "message":"Password or account wrong."}
+            身份认证失败 重新登录'
+          schema:
+            type: string
+        "500":
+          description: '{"error_code":"30001", "message":"Fail."} 失败'
+          schema:
+            type: string
+      summary: 登录
+      tags:
+      - user
+schemes:
+- http
+swagger: "2.0"

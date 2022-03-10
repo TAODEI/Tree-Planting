@@ -1,0 +1,163 @@
+{
+    "schemes": [
+        "http"
+    ],
+    "swagger": "2.0",
+    "info": {
+        "description": "植树节API",
+        "title": "TreePlanting API",
+        "termsOfService": "http://swagger.io/terrms/",
+        "contact": {
+            "name": "TAODEI",
+            "email": "tao_dei@qq.com"
+        },
+        "version": "1.0.0"
+    },
+    "host": "tree-planting.muxixyz.com:2333",
+    "basePath": "/api/v1",
+    "paths": {
+        "/content": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "上传content",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "content",
+                        "name": "object",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user.Content"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"msg\":\"修改成功\"}",
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
+                    },
+                    "400": {
+                        "description": "{\"error_code\":\"20001\", \"message\":\"Fail.\"} or {\"error_code\":\"00002\", \"message\":\"Lack Param Or Param Not Satisfiable.\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "{\"error_code\":\"10001\", \"message\":\"Token Invalid.\"} 身份认证失败 重新登录",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "{\"error_code\":\"30001\", \"message\":\"Fail.\"} 失败",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/user": {
+            "post": {
+                "description": "学号密码登录",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "登录",
+                "parameters": [
+                    {
+                        "description": "登录的用户信息",
+                        "name": "object",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"msg\":\"将student_id作为token保留\"}",
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
+                    },
+                    "400": {
+                        "description": "{\"error_code\":\"20001\", \"message\":\"Fail.\"} or {\"error_code\":\"00002\", \"message\":\"Lack Param Or Param Not Satisfiable.\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "{\"error_code\":\"10001\", \"message\":\"Password or account wrong.\"} 身份认证失败 重新登录",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "{\"error_code\":\"30001\", \"message\":\"Fail.\"} 失败",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Response": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {},
+                "msg": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.User": {
+            "type": "object",
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "student_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "user.Content": {
+            "type": "object",
+            "properties": {
+                "text": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
