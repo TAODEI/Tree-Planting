@@ -29,15 +29,12 @@ func Login(c *gin.Context) {
 		c.JSON(400, gin.H{"message": "Lack Param Or Param Not Satisfiable."})
 		return
 	}
-	if p.StudentID == "" || p.Password == "" {
-		c.JSON(400, gin.H{"message": "Lack Param Or Param Not Satisfiable."})
+	if len(p.StudentID) != 10 || p.StudentID[0] != '2' {
+		c.JSON(400, gin.H{"message": "student_id Not Satisfiable."})
 		return
 	}
-	// 验证一站式
-	_, err := model.GetUserInfoFormOne(p.StudentID, p.Password)
-	if err != nil {
-		fmt.Println(err)
-		c.JSON(401, "Password or account wrong.")
+	if p.Password == "" {
+		c.JSON(400, gin.H{"message": "Lack Param Or Param Not Satisfiable."})
 		return
 	}
 
@@ -47,6 +44,14 @@ func Login(c *gin.Context) {
 	if res := model.DB.Where("student_id = ?", p.StudentID).First(&p); res.Error != nil {
 
 		model.DB.Table("users").Create(&user)
+	} else {
+		// 验证一站式
+		_, err := model.GetUserInfoFormOne(p.StudentID, p.Password)
+		if err != nil {
+			fmt.Println(err)
+			c.JSON(401, "Password or account wrong.")
+			return
+		}
 	}
 
 	claims := &model.Jwt{StudentID: p.StudentID}
