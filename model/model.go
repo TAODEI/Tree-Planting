@@ -23,6 +23,11 @@ func PutContent(user UserModel) error {
 	return DB.Table("users").Where("student_id = ?", user.StudentID).Update(user).Error
 }
 
+func GetContent(user UserModel) (string, error) {
+	err := DB.Table("users").Where("student_id = ?", user.StudentID).First(&user).Error
+	return user.StudentID, err
+}
+
 const (
 	ErrorReasonServerBusy = "服务器繁忙"
 	ErrorReasonReLogin    = "请重新登陆"

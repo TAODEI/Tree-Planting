@@ -20,7 +20,7 @@ import (
 // @contact.name TAODEI
 // @contact.email tao_dei@qq.com
 // @host tree-planting.muxixyz.com:30002
-// @BasePath /api/v1
+// @BasePath /api
 // @Schemes http
 
 func main() {
