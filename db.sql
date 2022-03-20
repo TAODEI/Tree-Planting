@@ -6,5 +6,5 @@ create table users(
   student_id  varchar(100)	not null ,
   content     text ,
   primary key (id)
-)ENGINE=InnoDB;
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 

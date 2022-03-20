@@ -4,11 +4,8 @@ import (
 	"TreePlanting/config"
 	"TreePlanting/model"
 	"TreePlanting/router"
-	"fmt"
-	"os"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/spf13/viper"
 )
@@ -29,17 +26,7 @@ func main() {
 		panic(err)
 	}
 
-	dbMap := viper.GetStringMapString("db")
-	addr := os.Getenv("MYSQL_ADDR")
-	if addr == "" {
-		addr = dbMap["addr"]
-	}
-	dbConfig := fmt.Sprintf("%s:%s@tcp(%s)/%s?parseTime=True", dbMap["username"], dbMap["password"], addr, dbMap["name"])
-
-	model.DB, err = gorm.Open("mysql", dbConfig)
-	if err != nil {
-		panic(err)
-	}
+	model.InitDB()
 
 	r := gin.Default()
 	router.Router(r)

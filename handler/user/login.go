@@ -67,5 +67,5 @@ func Login(c *gin.Context) {
 		log.Println(err)
 	}
 
-	handler.SendResponse(c, "将student_id作为token保留", signedToken)
+	handler.SendResponse(c, "将data保留，并作为token放入后续请求header", signedToken)
 }
